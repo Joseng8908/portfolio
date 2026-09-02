@@ -29,7 +29,7 @@ surprised me, and the reasoning I would otherwise have to reconstruct from
 scratch six months later.
 
 Posts are tagged by subsystem — `RDMA`, `NUMA`, `scheduling`, `kubernetes`,
-`go`, and so on. The [tag index](/tags/) is the fastest way in.
+`go`, and so on. The [tag index]({{< relref "/tags" >}}) is the fastest way in.
 
 **Contact**
 
