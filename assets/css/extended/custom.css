@@ -1,0 +1,197 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Readability overrides. Text-first: no accent colors, no animation, no
+   decorative chrome. Everything here is either measure, rhythm, or typeface.
+   Loaded after the theme's own CSS (see PaperMod head.html), so plain
+   selectors win — no !important needed.
+   ───────────────────────────────────────────────────────────────────────────*/
+
+:root {
+    /* A 720px measure at 19px is ~72 characters per line. Comfortable. */
+    --main-width: 720px;
+    --content-gap: 22px;
+
+    --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "Helvetica Neue", "Apple SD Gothic Neo", "Pretendard",
+        "Noto Sans KR", Arial, sans-serif;
+    --font-mono: "JetBrains Mono", "SF Mono", "Menlo", "Consolas",
+        "Liberation Mono", ui-monospace, monospace;
+}
+
+body {
+    font-family: var(--font-body);
+    font-size: 19px;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "kern" 1, "liga" 1;
+}
+
+/* ─── Headings: tighter than body, clearly stepped, no color ────────────── */
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-title,
+.entry-header h2 {
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    font-weight: 650;
+}
+
+.post-content h2 {
+    margin-top: 2.2em;
+    font-size: 1.5rem;
+}
+
+.post-content h3 {
+    margin-top: 1.8em;
+    font-size: 1.22rem;
+}
+
+/* ─── Paragraph rhythm ──────────────────────────────────────────────────── */
+.post-content p {
+    margin-bottom: 1.25em;
+}
+
+.post-content li {
+    margin-top: 0.4em;
+}
+
+.post-content a {
+    /* Underline that does not fight the text it sits under. */
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--tertiary);
+}
+
+.post-content a:hover {
+    text-decoration-color: var(--secondary);
+}
+
+/* ─── Code ──────────────────────────────────────────────────────────────── */
+code,
+kbd,
+pre,
+samp,
+.highlight pre,
+.chroma {
+    font-family: var(--font-mono);
+    font-variant-ligatures: none;
+}
+
+.post-content code {
+    font-size: 0.86em;
+}
+
+.post-content pre code,
+.post-content .highlight pre {
+    font-size: 0.82rem;
+    line-height: 1.6;
+}
+
+/* Line-number gutter: present, but visually subordinate to the code. */
+.chroma .lnt,
+.chroma .ln {
+    color: var(--secondary);
+    opacity: 0.45;
+    user-select: none;
+}
+
+/* ─── Blockquote: a rule, not a box ─────────────────────────────────────── */
+.post-content blockquote {
+    border-inline-start: 2px solid var(--tertiary);
+    background: none;
+    font-style: normal;
+    color: var(--secondary);
+}
+
+/* ─── Tables ────────────────────────────────────────────────────────────── */
+.post-content table th,
+.post-content table td {
+    font-size: 0.92rem;
+}
+
+/* ─── Post list: dense index, not cards ─────────────────────────────────── */
+.post-entry {
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    background: none;
+    padding: 22px 0;
+    transition: none;
+}
+
+.post-entry:hover,
+.post-entry:active {
+    transform: none;
+    box-shadow: none;
+    background: none;
+}
+
+.post-entry .entry-hint,
+.post-entry .entry-footer {
+    color: var(--secondary);
+}
+
+.first-entry {
+    min-height: auto;
+    margin-bottom: 0;
+}
+
+/* ─── Home banner ───────────────────────────────────────────────────────── */
+.home-info .entry-content {
+    color: var(--content);
+}
+
+/* ─── Tags: text, not pills ─────────────────────────────────────────────── */
+.post-tags a,
+.terms-tags a {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    font-size: 0.85rem;
+}
+
+.post-tags a:hover,
+.terms-tags a:hover {
+    background: var(--code-bg);
+}
+
+/* ─── Table of contents ─────────────────────────────────────────────────── */
+.toc {
+    border: 1px solid var(--border);
+    background: none;
+    border-radius: 4px;
+}
+
+.toc details summary {
+    cursor: pointer;
+}
+
+.toc .inner {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* ─── Kill the theme's transform/scale flourishes ───────────────────────── */
+.logo a img,
+.top-link,
+.social-icons a {
+    transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ─── Narrow screens ────────────────────────────────────────────────────── */
+@media screen and (max-width: 600px) {
+    body {
+        font-size: 17px;
+        line-height: 1.68;
+    }
+}

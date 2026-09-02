@@ -1,0 +1,10 @@
+# Development-environment overrides, merged over the root hugo.toml.
+# `hugo server` runs with --environment=development by default.
+#
+# Without this, the production baseURL's "/portfolio/" path prefix is appended
+# locally too, and the dev site lives at http://localhost:1313/portfolio/.
+# Serving from "/" keeps local URLs identical to the ones you type.
+baseURL = "/"
+
+[params]
+  env = "development"   # suppresses OpenGraph/schema output in dev

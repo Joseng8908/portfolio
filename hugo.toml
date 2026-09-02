@@ -1,0 +1,157 @@
+# ─── Site ────────────────────────────────────────────────────────────────────
+# NOTE: baseURL is derived from the `origin` remote (github.com/Joseng8908/portfolio).
+# Project Pages → https://<user>.github.io/<repo>/  (trailing slash required)
+# If you later move to a user site (repo `Joseng8908.github.io`) or a custom
+# domain, change this to "https://joseng8908.github.io/" or "https://example.com/".
+baseURL = "https://joseng8908.github.io/portfolio/"
+locale = "en-us"
+defaultContentLanguage = "en"
+title = "Systems Archive"
+theme = "PaperMod"
+
+enableRobotsTXT = true
+enableEmoji = true
+enableInlineShortcodes = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+# Chroma needs class-based output so code colors follow the light/dark toggle.
+pygmentsUseClasses = true
+
+[pagination]
+  pagerSize = 10
+
+# ─── Taxonomies ──────────────────────────────────────────────────────────────
+# Tags only. Categories are intentionally disabled — one axis is enough.
+[taxonomies]
+  tag = "tags"
+
+# ─── Outputs ─────────────────────────────────────────────────────────────────
+# JSON on the home page is what feeds PaperMod's built-in fuse.js search index.
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+# ─── Markup ──────────────────────────────────────────────────────────────────
+[markup]
+  [markup.highlight]
+    noClasses = false          # emit CSS classes, not inline styles (dark mode)
+    codeFences = true
+    guessSyntax = true
+    lineNos = true
+    lineNumbersInTable = true  # keeps line numbers out of the copy button
+    tabWidth = 4
+  [markup.goldmark.renderer]
+    unsafe = true              # allow raw HTML in markdown
+  # Applies when params.UseHugoToc = true. PaperMod's own ToC builder (the
+  # default, UseHugoToc = false) walks every heading in the rendered content.
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+    ordered = false
+
+# ─── Menu ────────────────────────────────────────────────────────────────────
+[[menu.main]]
+  identifier = "posts"
+  name = "Posts"
+  url = "/posts/"
+  weight = 10
+
+[[menu.main]]
+  identifier = "tags"
+  name = "Tags"
+  url = "/tags/"
+  weight = 20
+
+[[menu.main]]
+  identifier = "archives"
+  name = "Archives"
+  url = "/archives/"
+  weight = 30
+
+[[menu.main]]
+  identifier = "about"
+  name = "About"
+  url = "/about/"
+  weight = 40
+
+[[menu.main]]
+  identifier = "search"
+  name = "Search"
+  url = "/search/"
+  weight = 50
+
+# ─── Params ──────────────────────────────────────────────────────────────────
+[params]
+  env = "production"           # enables OpenGraph / schema output
+  author = "Sangyun Jo"
+  description = "Notes on systems, kernels, networking fabric, and infrastructure."
+  keywords = ["systems", "infrastructure", "linux", "kernel", "networking"]
+  DateFormat = "2006-01-02"
+
+  defaultTheme = "auto"        # auto | light | dark
+  disableThemeToggle = false
+
+  ShowReadingTime = true
+  ShowWordCount = false
+  ShowToc = true
+  TocOpen = false
+  UseHugoToc = false
+  ShowCodeCopyButtons = true
+  ShowBreadCrumbs = true
+  ShowPostNavLinks = true
+  ShowRssButtonInSectionTermList = true
+  ShowAllPagesInArchive = true
+  ShowShareButtons = false     # no social clutter
+  ShowFullTextinRSS = true
+  displayFullLangName = true
+  hidemeta = false
+  hideSummary = false
+  comments = false
+
+  # Text-first: no cover images, no reading-progress bar animation noise.
+  disableScrollToTop = false
+  disableSpecial1stPost = true
+  disableAnchoredHeadings = false
+
+  # ─── Home banner ───────────────────────────────────────────────────────────
+  # homeInfoParams = short banner + recent post list underneath.
+  # (profileMode is the alternative: centered avatar, no post list. Not used.)
+  [params.homeInfoParams]
+    Title = "Systems Archive"
+    Content = """
+Infra / system engineer. Go, Linux internals, Kubernetes.
+
+This is a working archive — notes I write while digging into how things actually
+behave under load: RDMA paths, NUMA locality, scheduler decisions, container
+runtimes. Written for my future self first.
+"""
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/Joseng8908"
+
+  [[params.socialIcons]]
+    name = "rss"
+    url = "index.xml"
+
+  # ─── Search (fuse.js) ──────────────────────────────────────────────────────
+  [params.fuseOpts]
+    isCaseSensitive = false
+    shouldSort = true
+    location = 0
+    distance = 1000
+    threshold = 0.4
+    minMatchCharLength = 2
+    ignoreLocation = false
+    keys = ["title", "permalink", "summary", "content"]
+
+  [params.assets]
+    disableHLJS = true         # chroma handles highlighting server-side
+    disableFingerprinting = false
+    favicon = "/favicon.ico"
+
+# ─── Privacy ─────────────────────────────────────────────────────────────────
+[services]
+  [services.rss]
+    limit = 30
