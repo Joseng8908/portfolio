@@ -15,13 +15,12 @@ hidemeta: true
 avatar: "images/gopher.png"
 avatarAlt: "Gopher avatar"
 
-name: "[이름]"
-tagline: "[한 줄 소개 — 예: 커널·네트워크 계층에서 성능을 측정하고 재현하는 인프라 엔지니어]"
+name: "조상윤"
+tagline: "[인프라 엔지니어 지망생]"
 
 # 기간 / 소속. 각 항목이 가운데점(·)으로 구분되어 한 줄로 붙습니다.
 affiliations:
-  - "[ETRI 하계 인턴]"
-  - "[2026. 여름]"
+  - "[ETRI 2026 하계 인턴]"
   - "[서울과학기술대학교]"
 
 contacts:
@@ -93,17 +92,17 @@ projects:
 stackTitle: "Technical Stack"
 stack:
   - group: "Languages"
-    items: ["Go", "Java / Spring Boot", "Bash", "SQL"]
+    items: ["Go", "Python"]
   - group: "Systems"
     items: ["Linux", "eBPF", "perf", "NUMA", "RDMA"]
   - group: "Orchestration"
-    items: ["Kubernetes", "Docker", "Helm", "ArgoCD"]
+    items: ["Kubernetes", "Docker"]
   - group: "Infrastructure"
-    items: ["Terraform", "Ansible", "GCP", "Azure"]
+    items: ["GCP"]
   - group: "Data"
-    items: ["PostgreSQL", "Redis"]
+    items: ["PostgreSQL(learning)", "Redis(learning)"]
   - group: "Observability"
-    items: ["Prometheus", "Grafana"]
+    items: ["Prometheus", "Grafana", "Open telemetry(learning)"]
 ---
 
 [선택 — 이 영역은 일반 마크다운입니다. 헤더 바로 아래, 프로젝트 목록 위에

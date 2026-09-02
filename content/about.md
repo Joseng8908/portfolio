@@ -15,10 +15,10 @@ kernel scheduling, memory locality, network fabric, container runtimes.
 
 | Area | Tools |
 |---|---|
-| Languages | Go (primary), Java / Spring Boot (learning) |
-| Orchestration | Kubernetes, Helm, ArgoCD |
-| Infrastructure | Terraform, Ansible, Docker Compose |
-| Data | PostgreSQL, Redis |
+| Languages | Go (primary), C, Python(learning) |
+| Orchestration | Kubernetes |
+| Infrastructure | Terraform, Ansible, Docker Compose, Backend.AI |
+| Data | PostgreSQL(learning) , Redis(learning) |
 | Observability | Prometheus, Grafana |
 
 **Why this site exists**
