@@ -156,10 +156,21 @@ runtimes. Written for my future self first.
     ignoreLocation = false
     keys = ["title", "permalink", "summary", "content"]
 
+  # Icons are generated from assets/images/gopher.png into static/ (square
+  # crop on the alpha bounding box, then downscaled). theme_color drives the
+  # mobile browser chrome and matches --accent in the dark palette.
   [params.assets]
     disableHLJS = true         # chroma handles highlighting server-side
     disableFingerprinting = false
-    favicon = "/favicon.ico"
+    # No leading slash: PaperMod runs these through absURL, which discards the
+    # baseURL path ("/portfolio/") when the input starts with "/".
+    favicon = "favicon.ico"
+    favicon16x16 = "favicon-16x16.png"
+    favicon32x32 = "favicon-32x32.png"
+    apple_touch_icon = "apple-touch-icon.png"
+    safari_pinned_tab = "safari-pinned-tab.svg"
+    theme_color = "#0c0912"
+    msapplication_TileColor = "#6d28d9"
 
 # ─── Privacy ─────────────────────────────────────────────────────────────────
 [services]

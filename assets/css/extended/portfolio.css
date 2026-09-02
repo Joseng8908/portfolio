@@ -47,7 +47,7 @@
     gap: 20px;
     padding-bottom: 18px;
     margin-bottom: 26px;
-    border-bottom: 2px solid var(--primary);
+    border-bottom: 2px solid var(--accent);
 }
 
 .pf-avatar {
@@ -133,7 +133,7 @@
     font-weight: 700;
     letter-spacing: 0.11em;
     text-transform: uppercase;
-    color: var(--secondary);
+    color: var(--accent);
 }
 
 /* ─── Project cards ─────────────────────────────────────────────────────────
@@ -292,7 +292,8 @@
 
     /* Theme toggle must not follow the printer. */
     :root,
-    :root[data-theme="dark"] {
+    :root[data-theme="dark"],
+    :root[data-theme="light"] {
         --theme: #fff;
         --entry: #fff;
         --primary: #111;
@@ -301,6 +302,9 @@
         --content: #1a1a1a;
         --border: #d4d4d4;
         --code-bg: #f4f4f4;
+        --accent: #5b21b6;
+        --accent-soft: #f3eefc;
+        --accent-line: #c9bce6;
     }
 
     html,

@@ -1,0 +1,131 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Accent application. Loads LAST (extended/*.css concatenates in filename
+   order: 00-palette → custom → portfolio → zz-accent), so it wins over the
+   neutral link and tag rules in custom.css without those files needing to
+   know about the palette.
+
+   Colours come from --accent / --accent-soft / --accent-line, defined in
+   00-palette.css. Body copy is deliberately NOT accented — only links,
+   active states, structural rules and tags carry the purple.
+   ───────────────────────────────────────────────────────────────────────────*/
+
+::selection {
+    background: var(--accent-soft);
+    color: var(--primary);
+}
+
+/* ─── Links in prose ────────────────────────────────────────────────────── */
+.post-content a,
+.pf-note a {
+    color: var(--accent);
+    text-decoration-color: var(--accent-line);
+}
+
+.post-content a:hover,
+.pf-note a:hover {
+    text-decoration-color: var(--accent);
+}
+
+/* Headings keep --primary; only their anchor marker picks up the accent. */
+.post-content a.anchor {
+    color: var(--accent-line);
+}
+
+/* ─── Navigation ────────────────────────────────────────────────────────── */
+#menu .active {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+}
+
+#menu li a:hover {
+    color: var(--accent);
+}
+
+.logo a:hover {
+    color: var(--accent);
+}
+
+/* ─── Post list ─────────────────────────────────────────────────────────── */
+.post-entry:hover .entry-header h2 {
+    color: var(--accent);
+}
+
+/* ─── Tag pills — blog taxonomy (custom.css sets the shape, this the hue) ── */
+.post-tags a,
+.terms-tags a {
+    border-color: var(--accent-line);
+    color: var(--accent);
+}
+
+.post-tags a:hover,
+.terms-tags a:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+}
+
+/* ─── Portfolio tag pills ───────────────────────────────────────────────── */
+.pf-tag {
+    border-color: var(--accent-line);
+    color: var(--accent);
+    background: var(--accent-soft);
+}
+
+/* ─── Structural rules ──────────────────────────────────────────────────── */
+.post-content blockquote {
+    border-inline-start-color: var(--accent);
+}
+
+.toc {
+    border-color: var(--accent-line);
+}
+
+.toc .inner a:hover {
+    color: var(--accent);
+}
+
+/* ─── Chrome ────────────────────────────────────────────────────────────── */
+.footer a:hover {
+    color: var(--accent);
+}
+
+.social-icons a:hover svg {
+    stroke: var(--accent);
+}
+
+.top-link {
+    color: var(--accent);
+}
+
+#searchInput:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.searchResults li:hover,
+.searchResults .focus {
+    background: var(--accent-soft);
+}
+
+.home-info .entry-content a {
+    color: var(--accent);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Print: the accent survives on paper as the header rule and section labels,
+   but every pill flattens to plain text on white — coloured fills waste toner
+   and read as noise on a resume.
+   ───────────────────────────────────────────────────────────────────────────*/
+@media print {
+
+    .pf-tag {
+        background: none;
+        border-color: #c9bce6;
+        color: #4c1d95;
+    }
+
+    .post-tags a,
+    .terms-tags a {
+        border-color: #c9bce6;
+        color: #4c1d95;
+    }
+}

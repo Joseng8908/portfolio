@@ -1,0 +1,66 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Purple / black palette.
+
+   Overrides PaperMod's theme-vars.css (core CSS is concatenated before
+   extended/*.css, and extended files load in filename order — the 00- prefix
+   keeps this first so later files, notably portfolio.css's print block, can
+   still override it).
+
+   Strategy: text stays near-neutral with a purple cast so long-form reading
+   holds up; the accent carries links, active states, rules and tags. Body
+   copy is never the accent colour.
+
+   --accent / --accent-soft / --accent-line are additions, not PaperMod
+   variables. Only definitions live here; the selectors that consume them are
+   in zz-accent.css, which loads last so it wins over custom.css and
+   portfolio.css. Definitions must stay first so portfolio.css's @media print
+   block can still force the light palette onto paper.
+   ───────────────────────────────────────────────────────────────────────────*/
+
+/* ─── Light ─────────────────────────────────────────────────────────────── */
+:root {
+    --theme: #ffffff;          /* page ground                                */
+    --entry: #ffffff;          /* cards, entries                             */
+    --primary: #14101b;        /* headings, strong text — black, purple cast */
+    --content: #2b2438;        /* body copy                                  */
+    --secondary: #6b6280;      /* meta, muted                                */
+    --tertiary: #d6cfe4;       /* hairlines, markers                         */
+    --border: #e8e3f0;
+    --code-bg: #f4f0fa;        /* inline code, and list-page ground          */
+    --code-block-bg: #17121f;  /* fenced blocks stay dark in both themes     */
+
+    --accent: #6d28d9;         /* violet-700 — 5.8:1 on white, AA body text  */
+    --accent-soft: #f1eafd;
+    --accent-line: #b9a5ee;
+
+    color-scheme: light;
+}
+
+/* ─── Dark ──────────────────────────────────────────────────────────────── */
+:root[data-theme="dark"] {
+    --theme: #0c0912;
+    --entry: #15111e;
+    --primary: #ece8f5;
+    --content: #c4bcd4;
+    --secondary: #948aa8;
+    --tertiary: #3b3350;
+    --border: #262036;
+    --code-bg: #1d1729;
+    --code-block-bg: #15101f;
+
+    --accent: #a78bfa;         /* violet-400 — 7.3:1 on --theme             */
+    --accent-soft: #211a33;
+    --accent-line: #5b4a8a;
+
+    color-scheme: dark;
+}
+
+/* PaperMod tints list pages with --code-bg in light and --theme in dark.
+   Restated here so both land on the purple ramp. */
+.list {
+    background: var(--code-bg);
+}
+
+:root[data-theme="dark"] .list {
+    background: var(--theme);
+}
