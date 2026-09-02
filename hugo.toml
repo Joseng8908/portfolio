@@ -51,11 +51,21 @@ pygmentsUseClasses = true
     ordered = false
 
 # ─── Menu ────────────────────────────────────────────────────────────────────
+# Two content axes first — Portfolio (hiring summary) and Blog (technical
+# archive) — then navigation utilities. A divider is drawn after the 2nd item
+# by `#menu li:nth-child(2)::after` in assets/css/extended/portfolio.css;
+# if you reorder these weights, update that index too.
+[[menu.main]]
+  identifier = "portfolio"
+  name = "Portfolio"
+  url = "/portfolio/"
+  weight = 1
+
 [[menu.main]]
   identifier = "posts"
-  name = "Posts"
+  name = "Blog"
   url = "/posts/"
-  weight = 10
+  weight = 2
 
 [[menu.main]]
   identifier = "tags"

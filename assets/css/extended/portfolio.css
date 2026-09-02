@@ -1,0 +1,442 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Portfolio one-pager (/portfolio, layouts/portfolio.html).
+
+   Scoped under .pf so nothing here leaks into blog posts. Design target: a
+   recruiter scanning for 30 seconds, and a clean A4 when printed. Restrained
+   on purpose — 1px borders, no shadows, no hover transforms, no accent color.
+
+   Loaded after custom.css (extended/*.css concatenates alphabetically).
+   ───────────────────────────────────────────────────────────────────────────*/
+
+/* ─── Nav: two content axes, then utilities ─────────────────────────────────
+   Portfolio | Blog ‖ Tags · Archives · About · Search
+   The divider is keyed to the 2nd menu entry. If you reorder [[menu.main]]
+   weights in hugo.toml, move this index with them.                          */
+#menu li:nth-child(-n + 2) a {
+    font-weight: 600;
+}
+
+#menu li:nth-child(2) {
+    position: relative;
+}
+
+#menu li:nth-child(2)::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    inset-inline-end: calc(var(--gap) / -2);
+    transform: translateY(-50%);
+    width: 1px;
+    height: 15px;
+    background: var(--tertiary);
+}
+
+/* ─── Page frame ────────────────────────────────────────────────────────── */
+.pf {
+    font-size: 0.94rem;
+    line-height: 1.6;
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────────
+   Avatar left, identity block right. The source PNG has a fully transparent
+   background, so no plate or border is needed — it sits on the page ground
+   and reads correctly in both light and dark themes.                        */
+.pf-head {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 18px;
+    margin-bottom: 26px;
+    border-bottom: 2px solid var(--primary);
+}
+
+.pf-avatar {
+    flex: 0 0 auto;
+    width: 92px;
+    height: auto;
+    display: block;
+}
+
+.pf-head-text {
+    min-width: 0;
+}
+
+.pf-name {
+    margin: 0;
+    font-size: 2rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+}
+
+.pf-tagline {
+    margin: 8px 0 0;
+    font-size: 1rem;
+    color: var(--content);
+}
+
+/* Affiliations and contacts: single inline row, middot-separated. */
+.pf-affil,
+.pf-contact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 10px;
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+    font-size: 0.86rem;
+    color: var(--secondary);
+}
+
+.pf-affil li:not(:last-child)::after,
+.pf-contact li:not(:last-child)::after {
+    content: "·";
+    margin-inline-start: 10px;
+    color: var(--tertiary);
+}
+
+.pf-contact {
+    margin-top: 6px;
+}
+
+.pf-contact a {
+    color: var(--secondary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--tertiary);
+}
+
+.pf-contact a:hover {
+    color: var(--primary);
+}
+
+/* ─── Optional prose note from the markdown body ────────────────────────── */
+.pf-note {
+    margin-bottom: 26px;
+    color: var(--content);
+}
+
+.pf-note p {
+    margin: 0 0 0.7em;
+}
+
+/* ─── Sections ──────────────────────────────────────────────────────────── */
+.pf-section {
+    margin-bottom: 30px;
+}
+
+.pf-section-title {
+    margin: 0 0 14px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--secondary);
+}
+
+/* ─── Project cards ─────────────────────────────────────────────────────────
+   Single column: bullets need the measure. For two columns, change this to
+   `repeat(2, minmax(0, 1fr))` — but check the print result, it gets tight.  */
+.pf-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.pf-card {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 18px;
+    background: none;
+}
+
+.pf-card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 12px;
+}
+
+.pf-card-title {
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 650;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+}
+
+.pf-card-meta {
+    font-size: 0.78rem;
+    color: var(--secondary);
+    white-space: nowrap;
+}
+
+.pf-card-summary {
+    margin: 6px 0 0;
+    font-size: 0.9rem;
+    color: var(--content);
+}
+
+.pf-points {
+    margin: 10px 0 0;
+    padding-inline-start: 1.05em;
+    font-size: 0.88rem;
+}
+
+.pf-points li {
+    margin-top: 3px;
+    line-height: 1.55;
+}
+
+.pf-points li::marker {
+    color: var(--tertiary);
+}
+
+/* ─── Tag pills ─────────────────────────────────────────────────────────── */
+.pf-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+}
+
+.pf-tag {
+    padding: 1px 8px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--code-bg);
+    font-size: 0.72rem;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+    color: var(--secondary);
+    white-space: nowrap;
+}
+
+/* ─── Technical stack ───────────────────────────────────────────────────── */
+.pf-stack {
+    margin: 0;
+}
+
+.pf-stack-row {
+    display: grid;
+    grid-template-columns: 128px minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+    padding: 7px 0;
+    border-top: 1px solid var(--border);
+}
+
+.pf-stack-row:last-child {
+    border-bottom: 1px solid var(--border);
+}
+
+.pf-stack-group {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    padding-top: 3px;
+}
+
+.pf-stack-items {
+    margin: 0;
+}
+
+.pf-stack-items .pf-tags {
+    margin: 0;
+}
+
+/* ─── Narrow screens ────────────────────────────────────────────────────── */
+@media screen and (max-width: 560px) {
+    .pf-head {
+        gap: 14px;
+    }
+
+    .pf-avatar {
+        width: 64px;
+    }
+
+    .pf-name {
+        font-size: 1.6rem;
+    }
+
+    .pf-card-head {
+        flex-direction: column;
+    }
+
+    .pf-card-meta {
+        white-space: normal;
+    }
+
+    .pf-stack-row {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Print — A4. Strips site chrome and forces the light palette regardless of
+   the reader's theme toggle.
+   ───────────────────────────────────────────────────────────────────────────*/
+@media print {
+    @page {
+        size: A4;
+        margin: 13mm 14mm;
+    }
+
+    /* Theme toggle must not follow the printer. */
+    :root,
+    :root[data-theme="dark"] {
+        --theme: #fff;
+        --entry: #fff;
+        --primary: #111;
+        --secondary: #555;
+        --tertiary: #bbb;
+        --content: #1a1a1a;
+        --border: #d4d4d4;
+        --code-bg: #f4f4f4;
+    }
+
+    html,
+    body {
+        background: #fff !important;
+    }
+
+    /* Site chrome */
+    .header,
+    .footer,
+    .top-link,
+    .breadcrumbs,
+    #searchbox,
+    .theme-toggle {
+        display: none !important;
+    }
+
+    .main {
+        max-width: none;
+        min-height: 0;
+        padding: 0;
+        margin: 0;
+    }
+
+    body {
+        font-size: 9.5pt;
+        line-height: 1.42;
+    }
+
+    .pf {
+        font-size: 9.5pt;
+    }
+
+    .pf-name {
+        font-size: 17pt;
+    }
+
+    .pf-tagline {
+        font-size: 9.8pt;
+        margin-top: 5px;
+    }
+
+    .pf-affil,
+    .pf-contact {
+        font-size: 8.2pt;
+        margin-top: 5px;
+    }
+
+    .pf-head {
+        padding-bottom: 9px;
+        margin-bottom: 14px;
+        gap: 12px;
+    }
+
+    .pf-avatar {
+        width: 58px;
+    }
+
+    .pf-note {
+        margin-bottom: 14px;
+    }
+
+    .pf-section {
+        margin-bottom: 14px;
+    }
+
+    .pf-section-title {
+        font-size: 7.6pt;
+        margin-bottom: 7px;
+    }
+
+    .pf-grid {
+        gap: 7px;
+    }
+
+    .pf-card {
+        padding: 8px 10px;
+        border-radius: 4px;
+        /* Never split a project across pages. */
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .pf-card-title {
+        font-size: 10pt;
+    }
+
+    .pf-card-meta {
+        font-size: 7.8pt;
+    }
+
+    .pf-card-summary {
+        font-size: 9pt;
+        margin-top: 3px;
+    }
+
+    .pf-points {
+        font-size: 8.8pt;
+        margin-top: 5px;
+    }
+
+    .pf-points li {
+        margin-top: 1px;
+        line-height: 1.4;
+    }
+
+    .pf-tags {
+        margin-top: 6px;
+        gap: 3px;
+    }
+
+    .pf-tag {
+        font-size: 7.2pt;
+        padding: 0 6px;
+        line-height: 1.6;
+    }
+
+    .pf-stack-row {
+        padding: 4px 0;
+        grid-template-columns: 110px minmax(0, 1fr);
+    }
+
+    .pf-stack-group {
+        font-size: 7.6pt;
+    }
+
+    .pf-section-stack {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-bottom: 0;
+    }
+
+    /* Links print as plain text — a paper copy cannot be clicked, and the
+       contact row already spells out GitHub / email. */
+    .pf a {
+        color: inherit;
+        text-decoration: none;
+    }
+}
