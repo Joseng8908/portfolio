@@ -19,14 +19,14 @@
 
 /* ─── Light ─────────────────────────────────────────────────────────────── */
 :root {
-    --theme: #ffffff;          /* page ground                                */
+    --theme: #faf8fd;          /* page ground — tinted, shared by ALL pages  */
     --entry: #ffffff;          /* cards, entries                             */
     --primary: #14101b;        /* headings, strong text — black, purple cast */
     --content: #2b2438;        /* body copy                                  */
     --secondary: #6b6280;      /* meta, muted                                */
     --tertiary: #d6cfe4;       /* hairlines, markers                         */
     --border: #e8e3f0;
-    --code-bg: #f4f0fa;        /* inline code, and list-page ground          */
+    --code-bg: #eee7fa;        /* inline code                                */
     --code-block-bg: #17121f;  /* fenced blocks stay dark in both themes     */
 
     --accent: #6d28d9;         /* violet-700 — 5.8:1 on white, AA body text  */
@@ -55,12 +55,11 @@
     color-scheme: dark;
 }
 
-/* PaperMod tints list pages with --code-bg in light and --theme in dark.
-   Restated here so both land on the purple ramp. */
-.list {
-    background: var(--code-bg);
-}
-
+/* PaperMod grounds list pages (home, /posts, /tags, /archives, /search) in
+   --code-bg but single pages (a post, /about, /portfolio) in --theme, so in
+   light mode the two sets rendered as lavender vs. pure white. Pin both to
+   --theme: one ground for the whole site, in either scheme. */
+.list,
 :root[data-theme="dark"] .list {
     background: var(--theme);
 }

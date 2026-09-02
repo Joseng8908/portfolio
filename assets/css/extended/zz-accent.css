@@ -70,6 +70,16 @@
     background: var(--accent-soft);
 }
 
+/* ─── Page / post headers ───────────────────────────────────────────────────
+   The same accent rule .pf-head carries, so a post or /about reads as part of
+   the palette instead of plain text on a plain ground. */
+.page-header,
+.post-header,
+.home-info {
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 14px;
+}
+
 /* ─── Structural rules ──────────────────────────────────────────────────── */
 .post-content blockquote {
     border-inline-start-color: var(--accent);
