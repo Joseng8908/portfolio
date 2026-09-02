@@ -1,0 +1,44 @@
+{{- /*
+  Overrides PaperMod's home_info.html to put an avatar beside the banner,
+  matching the /portfolio header. Everything else is the theme's original
+  markup — title, RenderString'd content, social icons.
+
+  Extra params, both optional:
+    homeInfoParams.avatar     path under assets/
+    homeInfoParams.avatarAlt  alt text
+*/ -}}
+{{- with site.Params.homeInfoParams }}
+{{- $info := . }}
+<article class="first-entry home-info">
+    <div class="home-info-main">
+        {{- /* `with` rebinds the dot to the avatar string, so alt text has to
+               come from $info, not from `.`. */ -}}
+        {{- with .avatar }}
+        {{- $img := resources.Get . }}
+        {{- if $img }}
+        {{- $x1 := $img.Resize "104x png" }}
+        {{- $x2 := $img.Resize "208x png" }}
+        <img class="home-avatar" src="{{ $x1.RelPermalink }}"
+             srcset="{{ $x1.RelPermalink }} 1x, {{ $x2.RelPermalink }} 2x"
+             width="{{ $x1.Width }}" height="{{ $x1.Height }}"
+             alt="{{ $info.avatarAlt | default site.Title }}">
+        {{- else }}
+        {{- warnf "home_info: avatar %q not found under assets/" . }}
+        {{- end }}
+        {{- end }}
+
+        <div class="home-info-text">
+            <header class="entry-header">
+                <h1>{{ .Title | markdownify }}</h1>
+            </header>
+            <div class="entry-content md-content">
+                {{ $opts := dict "display" "block" }}
+                {{ .Content | $.Page.RenderString $opts }}
+            </div>
+            <footer class="entry-footer">
+                {{ partial "social_icons.html" (dict "align" .AlignSocialIconsTo) }}
+            </footer>
+        </div>
+    </div>
+</article>
+{{- end -}}

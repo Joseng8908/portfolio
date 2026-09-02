@@ -144,6 +144,34 @@ samp,
     color: var(--content);
 }
 
+/* Avatar beside the banner text, mirroring the /portfolio header. */
+.home-info-main {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.home-avatar {
+    flex: 0 0 auto;
+    width: 104px;
+    height: auto;
+    display: block;
+}
+
+.home-info-text {
+    min-width: 0;
+}
+
+@media screen and (max-width: 560px) {
+    .home-info-main {
+        gap: 16px;
+    }
+
+    .home-avatar {
+        width: 76px;
+    }
+}
+
 /* ─── Tags: text, not pills ─────────────────────────────────────────────── */
 .post-tags a,
 .terms-tags a {
