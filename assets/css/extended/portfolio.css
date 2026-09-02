@@ -146,10 +146,40 @@
 }
 
 .pf-card {
+    position: relative;
     border: 1px solid var(--border);
     border-radius: 6px;
     padding: 16px 18px;
     background: none;
+}
+
+/* Only the title is a real link; its ::after stretches the hit area over the
+   whole card, so the markup stays semantic and the tags below are not swept
+   into an enormous anchor. */
+.pf-card-title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.pf-card-title a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+}
+
+.pf-card:hover {
+    border-color: var(--accent);
+}
+
+.pf-card:hover .pf-card-title {
+    color: var(--accent);
+}
+
+.pf-empty {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--secondary);
 }
 
 .pf-card-head {
@@ -178,21 +208,6 @@
     margin: 6px 0 0;
     font-size: 0.9rem;
     color: var(--content);
-}
-
-.pf-points {
-    margin: 10px 0 0;
-    padding-inline-start: 1.05em;
-    font-size: 0.88rem;
-}
-
-.pf-points li {
-    margin-top: 3px;
-    line-height: 1.55;
-}
-
-.pf-points li::marker {
-    color: var(--tertiary);
 }
 
 /* ─── Tag pills ─────────────────────────────────────────────────────────── */
@@ -388,6 +403,11 @@
         page-break-inside: avoid;
     }
 
+    .pf-card-title a {
+        color: inherit;
+        text-decoration: none;
+    }
+
     .pf-card-title {
         font-size: 10pt;
     }
@@ -399,16 +419,6 @@
     .pf-card-summary {
         font-size: 9pt;
         margin-top: 3px;
-    }
-
-    .pf-points {
-        font-size: 8.8pt;
-        margin-top: 5px;
-    }
-
-    .pf-points li {
-        margin-top: 1px;
-        line-height: 1.4;
     }
 
     .pf-tags {

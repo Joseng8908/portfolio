@@ -1,0 +1,125 @@
+{{- /*
+  Portfolio section index: identity header, then one card per child page.
+
+  Cards link to the project's own page, which renders through PaperMod's
+  regular single.html — so a detail page is typographically identical to a
+  blog post (ToC, code highlighting, reading time). Nothing to maintain here
+  for the detail view.
+
+  _index.md front matter drives the header and the stack:
+    avatar, avatarAlt, name, tagline, affiliations[], contacts[{label,url}]
+    projectsTitle, stackTitle, stack[{group, items[]}]
+
+  Each project page contributes: title, summary, period, tags[], weight.
+*/ -}}
+{{- define "main" }}
+<article class="pf">
+
+  <header class="pf-head">
+    {{- with .Params.avatar }}
+    {{- $img := resources.Get . }}
+    {{- if $img }}
+    {{- $x1 := $img.Resize "92x png" }}
+    {{- $x2 := $img.Resize "184x png" }}
+    <img class="pf-avatar" src="{{ $x1.RelPermalink }}"
+         srcset="{{ $x1.RelPermalink }} 1x, {{ $x2.RelPermalink }} 2x"
+         width="{{ $x1.Width }}" height="{{ $x1.Height }}"
+         alt="{{ $.Params.avatarAlt | default $.Params.name | default $.Title }}">
+    {{- else }}
+    {{- warnf "portfolio: avatar %q not found under assets/" . }}
+    {{- end }}
+    {{- end }}
+
+    <div class="pf-head-text">
+      <h1 class="pf-name">{{ .Params.name | default .Title }}</h1>
+
+      {{- with .Params.tagline }}
+      <p class="pf-tagline">{{ . | markdownify }}</p>
+      {{- end }}
+
+      {{- with .Params.affiliations }}
+      <ul class="pf-affil">
+        {{- range . }}
+        <li>{{ . }}</li>
+        {{- end }}
+      </ul>
+      {{- end }}
+
+      {{- with .Params.contacts }}
+      <ul class="pf-contact">
+        {{- range . }}
+        {{- /* Internal paths must be resolved against the baseURL path — it
+               carries a "/portfolio/" prefix on GitHub Project Pages, so a
+               bare "/posts/" would 404 in production. absLangURL skips that
+               prefix when the input starts with "/", hence the TrimPrefix. */ -}}
+        {{- $isHTTP := hasPrefix .url "http" }}
+        {{- $isScheme := or $isHTTP (hasPrefix .url "mailto:") (hasPrefix .url "tel:") }}
+        {{- $href := cond $isScheme .url (.url | strings.TrimPrefix "/" | absLangURL) }}
+        <li><a href="{{ $href }}"{{ if $isHTTP }} rel="noopener"{{ end }}>{{ .label }}</a></li>
+        {{- end }}
+      </ul>
+      {{- end }}
+    </div>
+  </header>
+
+  {{- /* Optional free prose from _index.md's body. Omitted entirely when empty. */}}
+  {{- with .Content }}
+  <div class="pf-note">{{ . }}</div>
+  {{- end }}
+
+  <section class="pf-section">
+    <h2 class="pf-section-title">{{ .Params.projectsTitle | default "Projects" }}</h2>
+    {{- with .Pages.ByWeight }}
+    <div class="pf-grid">
+      {{- range . }}
+      <article class="pf-card">
+        <header class="pf-card-head">
+          {{- /* Only the title is a link; ::after stretches its hit area over
+                 the whole card, which keeps the markup semantic. */}}
+          <h3 class="pf-card-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          {{- with .Params.period }}
+          <span class="pf-card-meta">{{ . }}</span>
+          {{- end }}
+        </header>
+
+        {{- with (or .Params.summary .Description) }}
+        <p class="pf-card-summary">{{ . | markdownify }}</p>
+        {{- end }}
+
+        {{- with .Params.tags }}
+        <ul class="pf-tags">
+          {{- range . }}
+          <li class="pf-tag">{{ . }}</li>
+          {{- end }}
+        </ul>
+        {{- end }}
+      </article>
+      {{- end }}
+    </div>
+    {{- else }}
+    <p class="pf-empty">아직 프로젝트가 없습니다. <code>content/portfolio/</code> 에 마크다운 파일을 추가하세요.</p>
+    {{- end }}
+  </section>
+
+  {{- with .Params.stack }}
+  <section class="pf-section pf-section-stack">
+    <h2 class="pf-section-title">{{ $.Params.stackTitle | default "Technical Stack" }}</h2>
+    <dl class="pf-stack">
+      {{- range . }}
+      <div class="pf-stack-row">
+        <dt class="pf-stack-group">{{ .group }}</dt>
+        <dd class="pf-stack-items">
+          <ul class="pf-tags">
+            {{- range .items }}
+            <li class="pf-tag">{{ . }}</li>
+            {{- end }}
+          </ul>
+        </dd>
+      </div>
+      {{- end }}
+    </dl>
+  </section>
+  {{- end }}
+
+</article>
+{{- end }}{{/* end main */}}
