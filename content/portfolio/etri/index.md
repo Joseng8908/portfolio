@@ -96,8 +96,3 @@ GPU(prefill)와 NPU(decode)를 분리한 이기종 파이프라인으로 Llama-3
 · `Docker` · `Prometheus / Grafana` · `Tenstorrent NPU` · `NVIDIA GPU`
 · `schedstat / py-spy` · `Linux` · `Go` · `Python`
 
-<!--
-이미지: 이 파일을 page bundle(폴더/index.md)로 두고 같은 폴더에 이미지 배치 →
-  ![설명](파일명.png)
-내부 링크: [글]({{< relref "/posts/글이름" >}})  (절대경로는 배포 시 404)
--->
