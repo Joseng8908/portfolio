@@ -26,6 +26,8 @@ AI 컴퓨팅 오케스트레이션 플랫폼(Backend.AI)을 온프레미스 GPU/
 - 헬스체크 기반 **자가 복구 · 오토스케일링** 동작 검증
 - 여러 모델을 실제 Open WebUI와 연결하여 서빙·운영 (**A.X-4.0, K-EXAONE 236B / 750B, GLM, Llama** 등)
 
+{{< figure src="backendai-layered.png" alt="Backend.AI 계층 구조 — 접근/인터페이스/컨트롤/컴퓨트 계층과 이를 횡단하는 모니터링" caption="구축한 Backend.AI 스택. Manager·스케줄러가 agent RPC로 GPU/NPU 노드를 잡고, Prometheus/Grafana가 전 계층을 횡단 관측한다." >}}
+
 `Backend.AI` `Docker` `Prometheus / Grafana` `vLLM` `LGPLv3 오픈소스`
 
 ---
@@ -60,10 +62,7 @@ AI 컴퓨팅 오케스트레이션 플랫폼(Backend.AI)을 온프레미스 GPU/
 
 GPU(prefill)와 NPU(decode)를 분리한 이기종 파이프라인으로 Llama-3.3-70B를서빙하고, slo를 만족하지 못하는 병목이 연산이 아닌 **TTFT, 즉 데이터 이동 파이프라인**에 있다는 것을 벤치마킹을 통해 확인.
 
-```
-[입력] → prefill (A100×4, TP4) → KV Cache → [RDMA] → decode (NPU×4) → [출력]
-                                     Mooncake / InfiniBand
-```
+{{< figure src="arch.svg" alt="P/D 분리 서빙 구조 — AppProxy가 요청을 prefill(A100×4)과 decode(NPU×4)로 중계하고, KV Cache는 Mooncake RDMA로 전송" caption="회색 화살표 = 요청 경로, 파란 화살표 = KV Cache RDMA 전송. 전 컴포넌트를 Backend.AI로 배포." >}}
 
 **구축**
 - 플랫폼이 미인식하던 신규 NPU(Blackhole)를 가속기 플러그인 패치로 편입(`VALID_CARD_TYPE` 확장 → NPU 4장 정상 인식)
@@ -72,15 +71,17 @@ GPU(prefill)와 NPU(decode)를 분리한 이기종 파이프라인으로 Llama-3
 
 **성능 분석**
 - 2모델 × 4워크로드 × 8요청률 = **64측정점** goodput 벤치마크
-- DiP의 goodput 제약이 TPOT(94~126ms, 안정)가 아니라 **TTFT(긴 입력에서 14s → 70s 폭증)** 병목임을 확인
+- DiP의 goodput 제약이 TPOT(94~126ms, 안정)가 아니라 **TTFT(긴 입력에서 14s → 70s 증가)** 병목임을 확인
 - 컨테이너화 오버헤드(host 대비 TPOT ~25% ↑, TTFT ~2.4배)를 측정하고, 원인을 `schedstat` 기반으로 추적 (RDMA 실전송은 `port_rcv_data` 카운터로 검증)
 - 컨테이너화 오버헤드 원인 분석 중 CPU 사용량이 2000%까지 올라감을 확인 - Future Work
 
-`vLLM` `RDMA / InfiniBand` `Mooncake` `Tenstorrent NPU` `A100` `schedstat`
+{{< figure src="goodput-vs-rate.png" alt="Goodput vs 요청률 — K-EXAONE-236B(H100×4)와 Llama-3.3-70B DiP(A100×4+NPU×4)의 SLO 충족 비율 비교" caption="64측정점 goodput 벤치마크. 단일 GPU 서빙과 달리 DiP는 입력이 2048로 길어지는 HL·HH 워크로드에서 낮은 요청률부터 SLO를 놓친다." >}}
 
-<!-- 벤치 그래프 자리 (TPOT vs TTFT 대조):
-![TPOT vs TTFT](tpot-vs-ttft.png)
--->
+{{< figure src="tpot-vs-ttft.png" alt="Llama-3.3-70B DiP의 TPOT과 TTFT 비교 — TPOT은 SLO 이내로 안정, TTFT는 긴 입력에서 SLO를 크게 초과" caption="제약은 decode(TPOT 94~126ms, 전 구간 SLO 이내)가 아니라 prefill·KV 전송 경로의 TTFT다 — 긴 입력에서 14s → 70s." >}}
+
+{{< figure src="host-vs-container.png" alt="host와 container 실행의 TPOT·TTFT 비교 막대 그래프" caption="같은 워크로드(LH, rate 1.4, 3회)에서 TPOT 25% 차이가 TTFT에서는 2.4배로 증폭된다." >}}
+
+`vLLM` `RDMA / InfiniBand` `Mooncake` `Tenstorrent NPU` `A100` `schedstat`
 
 ---
 
