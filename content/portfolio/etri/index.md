@@ -13,13 +13,13 @@ TocOpen: false
 
 ## 개요
 
-GPU(prefill)랑 NPU(decode)를 분리한 이기종 파이프라인으로 Llama-3.3-70B를 서빙하고, goodput이 안 나오는 병목이 연산(TPOT)이 아니라 요청 입장 경로(TTFT)에 있다는 걸 규명했다.
+GPU(prefill)랑 NPU(decode)를 분리한 이기종 파이프라인으로 Llama-3.3-70B를 서빙하고, goodput이 안 나오는 병목이 연산(TPOT)이 아니라 요청 입장 파이프라인(TTFT)에 있다는 걸 벤치마킹을 통해 알아냈다.
 
 Backend.AI라는 AI 인프라 오케스트레이션 플랫폼을 온프레미스 환경에 구축하고, 그 위에서 P/D 분리 서빙과 다른 일반 모델들을 돌리고 운영하였다. 플랫폼이 원래 지원 안 하던 NPU를 직접 편입하는 것부터 시작해서, 컨테이너 기반의 KV Cache RDMA 전송 경로 구성, 성능 벤치마크, 병목 분석까지 전 과정을 담당했다.
 
 ## 배경 — 왜 P/D를 분리하나
 
-LLM 추론은 두 단계의 성격이 완전히 다르다. 입력 전체를 한 번에 처리하는 **prefill**은 연산 집약적이라 연산 성능 높은 GPU가 유리하고, 토큰을 하나씩 뽑아내는 **decode**는 메모리 대역폭에 지배되고 연산 부하는 상대적으로 낮다.
+LLM 추론은 두 단계의 성격이 완전히 다르다. 입력 전체를 한 번에 처리하는 **prefill**은 연산 집약적이라 연산 성능 높은 GPU가 유리하고, 토큰을 하나씩 뽑아내는 **decode**는 메모리 대역폭과 관련이 있기때문에 CPU만으로도 충분하다.
 
 이 둘을 같은 장치에서 처리하면 서로 특성이 달라서 자원을 비효율적으로 쓴다. 그래서 각 단계를 제일 잘 맞는 하드웨어에 나눠 붙이는 게 P/D 분리(Prefill/Decode Disaggregation)다. 이 프로젝트에선 prefill을 GPU(A100)에, decode를 NPU(Tenstorrent)에 오프로드해서 이기종 구성이 실제로 되는지를 검증하는 게 목표였다.
 
@@ -27,15 +27,13 @@ LLM 추론은 두 단계의 성격이 완전히 다르다. 입력 전체를 한 
 
 ```
 [입력] → prefill (A100×4, TP4) → KV Cache → [RDMA] → decode (NPU×4) → [출력]
-                                             Mooncake / InfiniBand
+                                     Mooncake / InfiniBand
 ```
 
-- **prefill 노드**: A100 80GB × 4, Tensor Parallelism 4로 vLLM 구동
+- **prefill 노드**: A100 80GB × 4, TP=4로 vLLM 구동
 - **decode 노드**: Tenstorrent NPU × 4, tt-metal 런타임 위에서 vLLM
-- **KV Cache 전송**: prefill이 만든 KV Cache를 Mooncake RDMA(InfiniBand)로
-  decode 노드에 넘김 — P/D 분리의 핵심 데이터 경로
-- **오케스트레이션**: 전 컴포넌트를 Backend.AI 배포 단위로 관리하고, proxy가
-  prefill·decode를 중계
+- **KV Cache 전송**: prefill이 만든 KV Cache를 Mooncake RDMA(InfiniBand)로 decode 노드에 넘김 — P/D 분리의 핵심 데이터 경로
+- **오케스트레이션**: 전 컴포넌트를 Backend.AI 배포 단위로 관리하고, proxy가 prefill·decode를 중계
 
 <!-- 아키텍처 그림 넣을 자리. 이미지를 이 폴더(etri/)에 두고 아래처럼:
 ![아키텍처](topology.png)
