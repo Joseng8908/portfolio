@@ -296,6 +296,34 @@
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
+   Figures — architecture diagrams and benchmark charts inside a portfolio
+   entry. The images are exported on a white canvas, so the light plate is
+   painted unconditionally; without it they burn as bare white rectangles
+   against the dark palette.
+   ───────────────────────────────────────────────────────────────────────────*/
+.post-content figure {
+    margin: 1.6em 0;
+}
+
+.post-content figure img {
+    display: block;
+    width: 100%;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px;
+}
+
+.post-content figure figcaption {
+    margin-top: 8px;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--secondary);
+    text-align: left;
+}
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
    Print — A4. Strips site chrome and forces the light palette regardless of
    the reader's theme toggle.
    ───────────────────────────────────────────────────────────────────────────*/
