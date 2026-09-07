@@ -1,7 +1,7 @@
 ---
-title: "LLM 서빙 인프라 구축 · 운영 @ AI 연구기관"
+title: "LLM 서빙 인프라 구축 · 운영"
 summary: "Backend.AI 기반 GPU/NPU LLM 서빙 인프라 구축과 이기종 P/D 분리 서빙의 컨테이너화"
-description: "AIDC Portfolio · 하계 연구 인턴 (2026.07 – 2026.08)"
+description: "AIDC Portfolio · ETRI 하계 연구 인턴 (2026.07 – 2026.08)"
 period: "2026.07 – 2026.08"
 date: 2026-09-02
 weight: 10
