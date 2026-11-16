@@ -9,7 +9,7 @@
    ───────────────────────────────────────────────────────────────────────────*/
 
 /* ─── Nav: two content axes, then utilities ─────────────────────────────────
-   Portfolio | Blog ‖ Tags · Archives · About · Search
+   Portfolio | Blog ‖ Tags · Archives · Search
    The divider is keyed to the 2nd menu entry. If you reorder [[menu.main]]
    weights in hugo.toml, move this index with them.                          */
 #menu li:nth-child(-n + 2) a {
