@@ -14,13 +14,15 @@ avatar: "images/gopher.png"
 avatarAlt: "Gopher avatar"
 
 name: "조상윤"
-tagline: "Infra / system engineer. Go, Linux internals, Kubernetes."
+tagline: "인프라 / 시스템 엔지니어. Go, Linux internals, Kubernetes."
 
 contacts:
   - label: "GitHub"
     url: "https://github.com/Joseng8908"
   - label: "Blog"
     url: "/posts/"
+  - label: "RSS"
+    url: "/index.xml"
   - label: "joseng@g.seoultech.ac.kr"
     url: "mailto:joseng@g.seoultech.ac.kr"
 
