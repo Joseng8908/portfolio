@@ -8,6 +8,9 @@
 
   _index.md front matter drives the header and the stack:
     avatar, avatarAlt, name, tagline, affiliations[], contacts[{label,url}]
+    interestsTitle, interests[]
+    experience[], activities[], awards[], education[] — each a list of
+      {period, org, role, summary, url}; section heading from <key>Title
     projectsTitle, stackTitle, stack[{group, items[]}]
 
   Each project page contributes: title, summary, period, tags[], weight.
@@ -19,8 +22,8 @@
     {{- with .Params.avatar }}
     {{- $img := resources.Get . }}
     {{- if $img }}
-    {{- $x1 := $img.Resize "92x png" }}
-    {{- $x2 := $img.Resize "184x png" }}
+    {{- $x1 := $img.Resize "132x png" }}
+    {{- $x2 := $img.Resize "264x png" }}
     <img class="pf-avatar" src="{{ $x1.RelPermalink }}"
          srcset="{{ $x1.RelPermalink }} 1x, {{ $x2.RelPermalink }} 2x"
          width="{{ $x1.Width }}" height="{{ $x1.Height }}"
@@ -59,12 +62,52 @@
         {{- end }}
       </ul>
       {{- end }}
+
+      {{- with .Params.interests }}
+      <div class="pf-interests">
+        <span class="pf-interests-label">{{ $.Params.interestsTitle | default "Interests" }}</span>
+        <ul class="pf-tags">
+          {{- range . }}
+          <li class="pf-tag">{{ . }}</li>
+          {{- end }}
+        </ul>
+      </div>
+      {{- end }}
     </div>
   </header>
 
   {{- /* Optional free prose from _index.md's body. Omitted entirely when empty. */}}
   {{- with .Content }}
   <div class="pf-note">{{ . }}</div>
+  {{- end }}
+
+  {{- /* CV rows: period on the left, organisation / role / one-line summary on
+         the right. Every CV section shares the markup. */}}
+  {{- range $key := slice "experience" "activities" "awards" "education" }}
+  {{- with index $.Params $key }}
+  <section class="pf-section">
+    <h2 class="pf-section-title">{{ index $.Params (printf "%sTitle" $key) | default (title $key) }}</h2>
+    <dl class="pf-cv">
+      {{- range . }}
+      <div class="pf-cv-row">
+        <dt class="pf-cv-period">{{ .period }}</dt>
+        <dd class="pf-cv-body">
+          <p class="pf-cv-org">
+            {{- if .url }}
+            {{- $isHTTP := hasPrefix .url "http" }}
+            <a href="{{ cond $isHTTP .url (.url | strings.TrimPrefix "/" | absLangURL) }}"{{ if $isHTTP }} rel="noopener"{{ end }}>{{ .org }}</a>
+            {{- else }}{{ .org }}{{ end }}
+            {{- with .role }}<span class="pf-cv-role">{{ . }}</span>{{ end }}
+          </p>
+          {{- with .summary }}
+          <p class="pf-cv-summary">{{ . | markdownify }}</p>
+          {{- end }}
+        </dd>
+      </div>
+      {{- end }}
+    </dl>
+  </section>
+  {{- end }}
   {{- end }}
 
   <section class="pf-section">

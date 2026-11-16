@@ -17,8 +17,7 @@ kernel scheduling, memory locality, network fabric, container runtimes.
 |---|---|
 | Languages | Go (primary), C, Python(learning) |
 | Orchestration | Kubernetes |
-| Infrastructure | Terraform, Ansible, Docker Compose, Backend.AI |
-| Data | PostgreSQL(learning) , Redis(learning) |
+| Infrastructure | Docker Compose, Backend.AI |
 | Observability | Prometheus, Grafana |
 
 **Why this site exists**

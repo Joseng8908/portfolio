@@ -44,7 +44,7 @@
 .pf-head {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 28px;
     padding-bottom: 18px;
     margin-bottom: 26px;
     border-bottom: 2px solid var(--accent);
@@ -52,7 +52,7 @@
 
 .pf-avatar {
     flex: 0 0 auto;
-    width: 92px;
+    width: 132px;
     height: auto;
     display: block;
 }
@@ -110,6 +110,92 @@
 
 .pf-contact a:hover {
     color: var(--primary);
+}
+
+/* Interests: a labelled row of pills closing the identity block. */
+.pf-interests {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 12px;
+    margin-top: 14px;
+}
+
+.pf-interests-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.pf-interests .pf-tags {
+    margin: 0;
+}
+
+/* ─── CV rows (Experience, Education) ─────────────────────────────────────
+   Same two-column rhythm as the stack table: period left, detail right.   */
+.pf-cv {
+    margin: 0;
+}
+
+.pf-cv-row {
+    display: grid;
+    grid-template-columns: 148px minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+    padding: 11px 0;
+    border-top: 1px solid var(--border);
+}
+
+.pf-cv-row:last-child {
+    border-bottom: 1px solid var(--border);
+}
+
+.pf-cv-period {
+    font-size: 0.8rem;
+    color: var(--secondary);
+    padding-top: 3px;
+    white-space: nowrap;
+}
+
+.pf-cv-body {
+    margin: 0;
+}
+
+.pf-cv-org {
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 650;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--primary);
+}
+
+.pf-cv-org a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--tertiary);
+}
+
+.pf-cv-org a:hover {
+    color: var(--accent);
+}
+
+.pf-cv-role {
+    margin-inline-start: 10px;
+    font-size: 0.86rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--secondary);
+}
+
+.pf-cv-summary {
+    margin: 4px 0 0;
+    font-size: 0.9rem;
+    color: var(--content);
 }
 
 /* ─── Optional prose note from the markdown body ────────────────────────── */
@@ -274,7 +360,16 @@
     }
 
     .pf-avatar {
-        width: 64px;
+        width: 72px;
+    }
+
+    .pf-head {
+        align-items: flex-start;
+    }
+
+    .pf-cv-row {
+        grid-template-columns: 1fr;
+        gap: 2px;
     }
 
     .pf-name {
