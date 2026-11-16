@@ -122,17 +122,10 @@ pygmentsUseClasses = true
   # homeInfoParams = short banner + recent post list underneath.
   # (profileMode is the alternative: centered avatar, no post list. Not used.)
   [params.homeInfoParams]
-    # Path is relative to assets/; resized 1x/2x by layouts/_partials/home_info.html
-    avatar = "images/gopher.png"
-    avatarAlt = "Gopher avatar"
+    # The home banner renders the /portfolio identity header instead of this
+    # text (see layouts/_partials/home_info.html). The table must stay
+    # non-empty: PaperMod only shows the banner when it is set.
     Title = "Systems Archive"
-    Content = """
-Infra / system engineer. Go, Linux internals, Kubernetes.
-
-This is a working archive — notes I write while digging into how things actually
-behave under load: RDMA paths, NUMA locality, scheduler decisions, container
-runtimes. Written for my future self first.
-"""
 
   [[params.socialIcons]]
     name = "github"

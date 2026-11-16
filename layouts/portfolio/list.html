@@ -18,63 +18,8 @@
 {{- define "main" }}
 <article class="pf">
 
-  <header class="pf-head">
-    {{- with .Params.avatar }}
-    {{- $img := resources.Get . }}
-    {{- if $img }}
-    {{- $x1 := $img.Resize "132x png" }}
-    {{- $x2 := $img.Resize "264x png" }}
-    <img class="pf-avatar" src="{{ $x1.RelPermalink }}"
-         srcset="{{ $x1.RelPermalink }} 1x, {{ $x2.RelPermalink }} 2x"
-         width="{{ $x1.Width }}" height="{{ $x1.Height }}"
-         alt="{{ $.Params.avatarAlt | default $.Params.name | default $.Title }}">
-    {{- else }}
-    {{- warnf "portfolio: avatar %q not found under assets/" . }}
-    {{- end }}
-    {{- end }}
-
-    <div class="pf-head-text">
-      <h1 class="pf-name">{{ .Params.name | default .Title }}</h1>
-
-      {{- with .Params.tagline }}
-      <p class="pf-tagline">{{ . | markdownify }}</p>
-      {{- end }}
-
-      {{- with .Params.affiliations }}
-      <ul class="pf-affil">
-        {{- range . }}
-        <li>{{ . }}</li>
-        {{- end }}
-      </ul>
-      {{- end }}
-
-      {{- with .Params.contacts }}
-      <ul class="pf-contact">
-        {{- range . }}
-        {{- /* Internal paths must be resolved against the baseURL path — it
-               carries a "/portfolio/" prefix on GitHub Project Pages, so a
-               bare "/posts/" would 404 in production. absLangURL skips that
-               prefix when the input starts with "/", hence the TrimPrefix. */ -}}
-        {{- $isHTTP := hasPrefix .url "http" }}
-        {{- $isScheme := or $isHTTP (hasPrefix .url "mailto:") (hasPrefix .url "tel:") }}
-        {{- $href := cond $isScheme .url (.url | strings.TrimPrefix "/" | absLangURL) }}
-        <li><a href="{{ $href }}"{{ if $isHTTP }} rel="noopener"{{ end }}>{{ .label }}</a></li>
-        {{- end }}
-      </ul>
-      {{- end }}
-
-      {{- with .Params.interests }}
-      <div class="pf-interests">
-        <span class="pf-interests-label">{{ $.Params.interestsTitle | default "Interests" }}</span>
-        <ul class="pf-tags">
-          {{- range . }}
-          <li class="pf-tag">{{ . }}</li>
-          {{- end }}
-        </ul>
-      </div>
-      {{- end }}
-    </div>
-  </header>
+  {{- /* Identity header lives in a partial so the home page can reuse it. */}}
+  {{ partial "pf_head.html" . }}
 
   {{- /* Optional free prose from _index.md's body. Omitted entirely when empty. */}}
   {{- with .Content }}
