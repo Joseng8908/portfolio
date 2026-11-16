@@ -6,8 +6,10 @@
    ───────────────────────────────────────────────────────────────────────────*/
 
 :root {
-    /* A 720px measure at 19px is ~72 characters per line. Comfortable. */
-    --main-width: 720px;
+    /* Content column matches the header bar (--nav-width, 1024px) so the
+       page reads as one column. At 19px that is ~54 Hangul characters per
+       line. Set back to 720px for a narrower, Latin-text measure. */
+    --main-width: var(--nav-width);
     --content-gap: 22px;
 
     --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
