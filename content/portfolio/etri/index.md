@@ -19,7 +19,7 @@ AI 컴퓨팅 오케스트레이션 플랫폼(Backend.AI)을 온프레미스 GPU/
 
 여러 서버와 이기종 가속기를 묶어 LLM 서빙 플랫폼을 구축하고, 실사용 가능한 수준까지 운영했다.
 
-- 단일 서버에 Backend.AI를 통합 설치(Halfstack + Manager/AppProxy/Storage/Agent)한 뒤, **control plane을 별도 서버에 구축**하고 **GPU 서버들을 agent로 편입**해 **자원 그룹을 분리**
+- 단일 서버에 Backend.AI를 통합 설치(Halfstack + Manager/AppProxy/Storage/Agent)한 뒤, **Control plane을 별도 서버에 구축**하고 **GPU 서버들을 agent로 편입**해 **자원 그룹을 분리**
 - **Grafana / Prometheus 기반 모니터링** 구축 (vLLM · DCGM · all-smi 메트릭 소스)
 - 헬스체크 기반 **자가 복구 · 오토스케일링** 동작 검증
 - 여러 모델을 실제 서빙·운영 (**A.X-4.0, K-EXAONE 236B / 750B, GLM, Llama** 등)
@@ -37,7 +37,7 @@ GPU(prefill)와 NPU(decode)를 분리한 이기종 파이프라인으로 Llama-3
 
 ![P/D 서빙 컨테이너화 (Before/After)](pd-containerization.png)
 
-![P/D 분리 서빙 구조 — AppProxy가 요청을 prefill(A100x4)과 decode(NPU x4)로 중계하고, KV Cache는 Mooncake RDMA로 전송](arch.svg)
+![P/D 분리 서빙 구조 — AppProxy가 요청을 prefill(A100x4)과 decode(NPUx4)로 중계하고, KV Cache는 Mooncake RDMA로 전송](arch.svg)
 
 **컨테이너화 (메인 기여)**
 - 기존 Bare-metal 실행(수동 기동·수동 복구·재현 어려움)을 컨테이너 기반 배포로 전환 → 헬스체크 자동 복구, 자원 격리, 배포 리비전 재현 확보
