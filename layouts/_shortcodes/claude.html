@@ -1,0 +1,12 @@
+{{- /*
+  "클로드의 설명" aside: a short, sourced explanation written by Claude rather
+  than by the author, set apart in muted italics.
+
+    {{< claude title="2013 전산망 마비 사태란?" >}}
+    본문 (markdown). 마지막 줄에 출처 링크.
+    {{< /claude >}}
+*/ -}}
+<aside class="claude-note">
+  <p class="claude-note-label">클로드의 설명{{ with .Get "title" }}<span class="claude-note-title">{{ . }}</span>{{ end }}</p>
+  <div class="claude-note-body">{{ .Inner | strings.TrimSpace | .Page.RenderString (dict "display" "block") }}</div>
+</aside>

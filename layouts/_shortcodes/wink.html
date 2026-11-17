@@ -1,0 +1,11 @@
+{{- /*
+  Sign-off image: the sketched gopher winking. Goes at the very end of every
+  blog post — `{{< wink >}}` on its own line. One shared file
+  (assets/images/gopher-wink.png), so no per-post copy is needed.
+*/ -}}
+{{- with resources.Get "images/gopher-wink.png" -}}
+{{- $img := .Resize "1100x png" -}}
+<figure class="post-wink">
+  <img src="{{ $img.RelPermalink }}" width="{{ $img.Width }}" height="{{ $img.Height }}" alt="선글라스를 쓴 고퍼가 찡긋하는 그림" loading="lazy">
+</figure>
+{{- end -}}
